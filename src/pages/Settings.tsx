@@ -40,7 +40,7 @@ const Settings = () => {
                 className={`relative w-12 h-7 rounded-full transition-colors ${isDark ? 'bg-primary' : 'bg-muted'}`}
               >
                 <span
-                  className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow-soft transition-transform ${
+                  className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-card shadow-soft transition-transform ${
                     isDark ? 'translate-x-5' : 'translate-x-0'
                   }`}
                 />
@@ -70,7 +70,7 @@ const Settings = () => {
 function Stat({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: string }) {
   return (
     <div className="flex flex-col items-center gap-1.5 py-2">
-      <div className="w-10 h-10 rounded-xl bg-card flex items-center justify-center shadow-soft">
+      <div className="w-10 h-10 rounded-xl bg-background flex items-center justify-center shadow-soft">
         <Icon className="h-5 w-5 text-primary" />
       </div>
       <p className="font-display font-extrabold text-foreground text-lg leading-none mt-1">{value}</p>
