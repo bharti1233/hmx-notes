@@ -1,21 +1,24 @@
-import { useState, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
-import { getNoteColorClass } from '@/lib/noteColors';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, Check, Flag, Lock, Archive, Trash2, Pin } from 'lucide-react';
 import { ColorPicker } from './ColorPicker';
+import { getNoteColorClass, NOTE_TAGS, type NoteColor } from '@/lib/noteColors';
 import type { Note } from '@/hooks/useNotes';
-import type { NoteColor } from '@/lib/noteColors';
 
 interface NoteEditorProps {
   note: Note | null;
   open: boolean;
   onClose: () => void;
   onSave: (note: Partial<Note> & { id?: string }) => void;
+  onDelete?: (id: string) => void;
 }
 
-export function NoteEditor({ note, open, onClose, onSave }: NoteEditorProps) {
+export function NoteEditor({ note, open, onClose, onSave, onDelete }: NoteEditorProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [color, setColor] = useState<string>('default');
+  const [tag, setTag] = useState<string>('none');
+  const [priority, setPriority] = useState(false);
+  const [pinned, setPinned] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -23,7 +26,10 @@ export function NoteEditor({ note, open, onClose, onSave }: NoteEditorProps) {
       setTitle(note?.title || '');
       setContent(note?.content || '');
       setColor(note?.color || 'default');
-      setTimeout(() => titleRef.current?.focus(), 100);
+      setTag(note?.tag || 'none');
+      setPriority(note?.priority || false);
+      setPinned(note?.pinned || false);
+      setTimeout(() => titleRef.current?.focus(), 80);
     }
   }, [open, note]);
 
@@ -34,49 +40,148 @@ export function NoteEditor({ note, open, onClose, onSave }: NoteEditorProps) {
       onClose();
       return;
     }
-    onSave({ id: note?.id, title, content, color });
+    onSave({ id: note?.id, title, content, color, tag, priority, pinned });
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] px-4" onClick={handleSave}>
-      <div className="fixed inset-0 bg-foreground/30 backdrop-blur-sm" />
-      <div
-        className={`relative w-full max-w-xl rounded-xl shadow-2xl border border-border/50 ${getNoteColorClass(color)} z-10`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={handleSave}
-          className="absolute top-3 right-3 p-1 rounded-full hover:bg-foreground/10 transition-colors text-muted-foreground"
-        >
-          <X className="h-5 w-5" />
-        </button>
+  const handleDelete = () => {
+    if (note && onDelete) {
+      onDelete(note.id);
+      onClose();
+    }
+  };
 
-        <div className="p-5 space-y-3">
-          <input
-            ref={titleRef}
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-transparent text-lg font-medium text-foreground placeholder:text-muted-foreground outline-none"
-          />
-          <textarea
-            placeholder="Take a note..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={6}
-            className="w-full bg-transparent text-sm text-foreground/80 placeholder:text-muted-foreground outline-none resize-none leading-relaxed"
-          />
-          <div className="flex items-center justify-between pt-2">
-            <ColorPicker selected={color} onSelect={(c: NoteColor) => setColor(c)} />
+  return (
+    <div className="fixed inset-0 z-50 bg-background flex flex-col animate-in fade-in duration-150">
+      {/* Header */}
+      <header className={`sticky top-0 z-10 ${getNoteColorClass(color)} border-b border-border/40`}>
+        <div className="max-w-2xl mx-auto flex items-center justify-between px-4 h-14">
+          <div className="flex items-center gap-2">
             <button
               onClick={handleSave}
-              className="px-4 py-1.5 text-sm font-medium text-foreground hover:bg-foreground/10 rounded-md transition-colors"
+              className="p-2 -ml-2 rounded-full hover:bg-foreground/5 transition-colors"
+              aria-label="Back"
             >
-              Close
+              <ArrowLeft className="h-5 w-5 text-foreground" />
+            </button>
+            <h2 className="font-display font-semibold text-base text-foreground">
+              {note ? 'Edit Note' : 'New Note'}
+            </h2>
+          </div>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setPinned(p => !p)}
+              className={`p-2 rounded-full hover:bg-foreground/5 transition-colors ${pinned ? 'text-primary' : 'text-muted-foreground'}`}
+              aria-label={pinned ? 'Unpin' : 'Pin'}
+            >
+              <Pin className="h-5 w-5" style={pinned ? { fill: 'currentColor' } : {}} />
+            </button>
+            <button
+              onClick={handleSave}
+              className="p-2 rounded-full hover:bg-foreground/5 transition-colors"
+              aria-label="Save"
+            >
+              <Check className="h-5 w-5 text-foreground" />
             </button>
           </div>
+        </div>
+      </header>
+
+      {/* Body */}
+      <div className={`flex-1 overflow-y-auto ${getNoteColorClass(color)}`}>
+        <div className="max-w-2xl mx-auto px-4 py-6 space-y-5">
+          {/* Color picker row */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Color</p>
+            <ColorPicker selected={color} onSelect={(c: NoteColor) => setColor(c)} />
+          </div>
+
+          {/* Title card */}
+          <div className="bg-card rounded-2xl shadow-soft p-4 border border-border/40">
+            <input
+              ref={titleRef}
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full bg-transparent font-display font-bold text-lg text-foreground placeholder:text-muted-foreground outline-none"
+            />
+          </div>
+
+          {/* Content card */}
+          <div className="bg-card rounded-2xl shadow-soft p-4 border border-border/40">
+            <textarea
+              placeholder="Start writing..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={10}
+              className="w-full bg-transparent text-sm text-foreground/85 placeholder:text-muted-foreground outline-none resize-none leading-relaxed min-h-[180px]"
+            />
+          </div>
+
+          {/* Action chips */}
+          <div className="grid grid-cols-3 gap-3">
+            <button
+              onClick={() => setPriority(p => !p)}
+              className={`flex flex-col items-center justify-center gap-1.5 h-20 rounded-2xl border transition-all ${
+                priority
+                  ? 'bg-gradient-priority text-white border-transparent shadow-soft'
+                  : 'bg-card border-border/60 text-muted-foreground hover:border-primary/30'
+              }`}
+            >
+              <Flag className="h-5 w-5" fill={priority ? 'currentColor' : 'none'} />
+              <span className="text-xs font-semibold">Priority</span>
+            </button>
+            <button
+              type="button"
+              disabled
+              className="flex flex-col items-center justify-center gap-1.5 h-20 rounded-2xl bg-card border border-border/60 text-muted-foreground/50 cursor-not-allowed"
+              title="Coming soon"
+            >
+              <Lock className="h-5 w-5" />
+              <span className="text-xs font-semibold">Lock</span>
+            </button>
+            <button
+              type="button"
+              disabled
+              className="flex flex-col items-center justify-center gap-1.5 h-20 rounded-2xl bg-card border border-border/60 text-muted-foreground/50 cursor-not-allowed"
+              title="Coming soon"
+            >
+              <Archive className="h-5 w-5" />
+              <span className="text-xs font-semibold">Archive</span>
+            </button>
+          </div>
+
+          {/* Tag selector */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Tag</p>
+            <div className="flex flex-wrap gap-2">
+              {NOTE_TAGS.map(t => (
+                <button
+                  key={t.id}
+                  onClick={() => setTag(t.id)}
+                  className={`px-3 h-9 rounded-full text-sm font-medium transition-all ${
+                    tag === t.id
+                      ? 'bg-gradient-primary text-primary-foreground shadow-soft'
+                      : 'bg-card text-foreground/70 border border-border/60'
+                  }`}
+                >
+                  {t.id === 'none' ? 'None' : `#${t.label}`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Delete */}
+          {note && onDelete && (
+            <button
+              onClick={handleDelete}
+              className="w-full flex items-center justify-center gap-2 h-12 rounded-2xl bg-destructive/10 text-destructive font-semibold text-sm hover:bg-destructive/15 transition-colors"
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete Note
+            </button>
+          )}
         </div>
       </div>
     </div>

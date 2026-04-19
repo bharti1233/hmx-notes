@@ -16,32 +16,41 @@ export type Database = {
     Tables: {
       notes: {
         Row: {
+          archived: boolean
           color: string
           content: string
           created_at: string
           id: string
           pinned: boolean
           position: number
+          priority: boolean
+          tag: string
           title: string
           updated_at: string
         }
         Insert: {
+          archived?: boolean
           color?: string
           content?: string
           created_at?: string
           id?: string
           pinned?: boolean
           position?: number
+          priority?: boolean
+          tag?: string
           title?: string
           updated_at?: string
         }
         Update: {
+          archived?: boolean
           color?: string
           content?: string
           created_at?: string
           id?: string
           pinned?: boolean
           position?: number
+          priority?: boolean
+          tag?: string
           title?: string
           updated_at?: string
         }
