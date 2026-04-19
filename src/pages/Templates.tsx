@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { TEMPLATES } from '@/lib/templates';
 import { useNotes } from '@/hooks/useNotes';
 import { BottomNav } from '@/components/BottomNav';
-import { AuraLogo } from '@/components/AuraLogo';
+import { HmxLogo } from '@/components/HmxLogo';
 import { toast } from 'sonner';
 
 const Templates = () => {
@@ -27,7 +27,7 @@ const Templates = () => {
   return (
     <div className="min-h-screen bg-gradient-hero pb-24">
       <header className="px-4 pt-6 pb-2 max-w-2xl mx-auto flex items-center gap-3">
-        <AuraLogo size={32} />
+        <HmxLogo size={36} />
         <div>
           <p className="text-xs text-muted-foreground">Templates</p>
           <h1 className="font-display font-extrabold text-xl text-foreground">Quick Start</h1>
