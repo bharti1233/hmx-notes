@@ -48,12 +48,11 @@ const Index = () => {
   };
 
   const totalCount = allNotes.length;
-  const counts = {
-    all: allNotes.length,
-    work: allNotes.filter(n => n.tag === 'work').length,
-    personal: allNotes.filter(n => n.tag === 'personal').length,
-    ideas: allNotes.filter(n => n.tag === 'ideas').length,
-  };
+  const counts = allNotes.reduce<Record<string, number>>((acc, n) => {
+    acc.all = (acc.all || 0) + 1;
+    if (n.tag && n.tag !== 'none') acc[n.tag] = (acc[n.tag] || 0) + 1;
+    return acc;
+  }, { all: 0 });
 
   const isEmpty = pinnedNotes.length === 0 && otherNotes.length === 0;
 
