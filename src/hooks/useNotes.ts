@@ -8,6 +8,9 @@ export interface Note {
   color: string;
   pinned: boolean;
   position: number;
+  tag: string;
+  priority: boolean;
+  archived: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -16,30 +19,26 @@ export function useNotes() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeTag, setActiveTag] = useState<string>('all');
 
   const fetchNotes = useCallback(async () => {
     const { data, error } = await supabase
       .from('notes')
       .select('*')
+      .eq('archived', false)
       .order('pinned', { ascending: false })
       .order('updated_at', { ascending: false });
 
-    if (!error && data) {
-      setNotes(data);
-    }
+    if (!error && data) setNotes(data as Note[]);
     setLoading(false);
   }, []);
 
   useEffect(() => {
     fetchNotes();
-
     const channel = supabase
       .channel('notes-realtime')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'notes' }, () => {
-        fetchNotes();
-      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'notes' }, () => fetchNotes())
       .subscribe();
-
     return () => { supabase.removeChannel(channel); };
   }, [fetchNotes]);
 
@@ -49,6 +48,8 @@ export function useNotes() {
       content: note.content || '',
       color: note.color || 'default',
       pinned: note.pinned || false,
+      tag: note.tag || 'none',
+      priority: note.priority || false,
     });
     if (!error) fetchNotes();
   };
@@ -68,6 +69,7 @@ export function useNotes() {
   };
 
   const filteredNotes = notes.filter(note => {
+    if (activeTag !== 'all' && note.tag !== activeTag) return false;
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     return note.title.toLowerCase().includes(q) || note.content.toLowerCase().includes(q);
@@ -78,11 +80,14 @@ export function useNotes() {
 
   return {
     notes: filteredNotes,
+    allNotes: notes,
     pinnedNotes,
     otherNotes,
     loading,
     searchQuery,
     setSearchQuery,
+    activeTag,
+    setActiveTag,
     createNote,
     updateNote,
     deleteNote,

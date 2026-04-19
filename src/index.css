@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Product+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&family=Google+Sans:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,108 +6,106 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 0 0% 13%;
+    --background: 240 30% 98%;
+    --foreground: 240 15% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 13%;
+    --card-foreground: 240 15% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 13%;
+    --popover-foreground: 240 15% 12%;
 
-    --primary: 214 82% 51%;
+    /* Aura purple */
+    --primary: 252 87% 64%;
     --primary-foreground: 0 0% 100%;
+    --primary-soft: 252 100% 96%;
 
-    --secondary: 45 93% 58%;
-    --secondary-foreground: 0 0% 13%;
+    --secondary: 240 20% 96%;
+    --secondary-foreground: 240 15% 12%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 240 15% 95%;
+    --muted-foreground: 240 8% 46%;
 
-    --accent: 220 14% 96%;
-    --accent-foreground: 0 0% 13%;
+    --accent: 252 100% 96%;
+    --accent-foreground: 252 87% 50%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 214 82% 51%;
+    --border: 240 15% 92%;
+    --input: 240 15% 92%;
+    --ring: 252 87% 64%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    /* Note colors */
+    /* Note colors — soft pastels */
     --note-default: 0 0% 100%;
-    --note-coral: 4 90% 94%;
-    --note-peach: 28 100% 92%;
-    --note-sand: 43 96% 90%;
-    --note-mint: 134 41% 88%;
-    --note-sage: 168 34% 87%;
-    --note-fog: 198 44% 90%;
-    --note-storm: 224 32% 90%;
-    --note-dusk: 262 32% 91%;
-    --note-blossom: 330 52% 92%;
+    --note-yellow: 48 100% 92%;
+    --note-coral: 4 100% 93%;
+    --note-lavender: 252 70% 94%;
+    --note-mint: 150 60% 91%;
+    --note-sky: 200 90% 93%;
+    --note-peach: 24 100% 92%;
+    --note-rose: 340 80% 94%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Tag colors */
+    --tag-work: 252 87% 64%;
+    --tag-personal: 340 80% 60%;
+    --tag-ideas: 200 90% 55%;
 
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(252 87% 64%), hsl(280 80% 65%));
+    --gradient-priority: linear-gradient(135deg, hsl(15 90% 60%), hsl(340 80% 60%));
+    --gradient-hero: linear-gradient(180deg, hsl(252 100% 98%), hsl(240 30% 98%));
+
+    /* Shadows */
+    --shadow-soft: 0 2px 12px -4px hsl(252 50% 30% / 0.08);
+    --shadow-card: 0 4px 16px -6px hsl(252 50% 30% / 0.1);
+    --shadow-fab: 0 12px 28px -8px hsl(252 87% 64% / 0.45);
   }
 
   .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 95%;
+    --background: 240 18% 8%;
+    --foreground: 240 10% 95%;
 
-    --card: 0 0% 11%;
-    --card-foreground: 0 0% 95%;
+    --card: 240 18% 12%;
+    --card-foreground: 240 10% 95%;
 
-    --popover: 0 0% 11%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 240 18% 12%;
+    --popover-foreground: 240 10% 95%;
 
-    --primary: 214 82% 51%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 252 87% 70%;
+    --primary-foreground: 240 18% 8%;
+    --primary-soft: 252 40% 18%;
 
-    --secondary: 45 93% 58%;
-    --secondary-foreground: 0 0% 13%;
+    --secondary: 240 15% 16%;
+    --secondary-foreground: 240 10% 95%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 64%;
+    --muted: 240 15% 16%;
+    --muted-foreground: 240 8% 65%;
 
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 95%;
+    --accent: 252 40% 20%;
+    --accent-foreground: 252 87% 80%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 95%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 214 82% 51%;
+    --border: 240 15% 20%;
+    --input: 240 15% 20%;
+    --ring: 252 87% 70%;
 
-    --note-default: 0 0% 11%;
-    --note-coral: 4 40% 20%;
-    --note-peach: 28 40% 20%;
-    --note-sand: 43 40% 20%;
-    --note-mint: 134 25% 18%;
-    --note-sage: 168 25% 18%;
-    --note-fog: 198 25% 18%;
-    --note-storm: 224 25% 18%;
-    --note-dusk: 262 25% 20%;
-    --note-blossom: 330 30% 20%;
+    --note-default: 240 18% 14%;
+    --note-yellow: 48 35% 22%;
+    --note-coral: 4 35% 22%;
+    --note-lavender: 252 35% 22%;
+    --note-mint: 150 25% 18%;
+    --note-sky: 200 35% 20%;
+    --note-peach: 24 35% 22%;
+    --note-rose: 340 30% 22%;
 
-    --sidebar-background: 0 0% 7%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --shadow-soft: 0 2px 12px -4px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 4px 16px -6px hsl(0 0% 0% / 0.5);
+    --shadow-fab: 0 12px 28px -8px hsl(252 87% 64% / 0.6);
   }
 }
 
@@ -116,21 +113,35 @@
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1, h2, h3, .font-display {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
   .note-default { background-color: hsl(var(--note-default)); }
+  .note-yellow { background-color: hsl(var(--note-yellow)); }
   .note-coral { background-color: hsl(var(--note-coral)); }
-  .note-peach { background-color: hsl(var(--note-peach)); }
-  .note-sand { background-color: hsl(var(--note-sand)); }
+  .note-lavender { background-color: hsl(var(--note-lavender)); }
   .note-mint { background-color: hsl(var(--note-mint)); }
-  .note-sage { background-color: hsl(var(--note-sage)); }
-  .note-fog { background-color: hsl(var(--note-fog)); }
-  .note-storm { background-color: hsl(var(--note-storm)); }
-  .note-dusk { background-color: hsl(var(--note-dusk)); }
-  .note-blossom { background-color: hsl(var(--note-blossom)); }
+  .note-sky { background-color: hsl(var(--note-sky)); }
+  .note-peach { background-color: hsl(var(--note-peach)); }
+  .note-rose { background-color: hsl(var(--note-rose)); }
+
+  .bg-gradient-primary { background-image: var(--gradient-primary); }
+  .bg-gradient-priority { background-image: var(--gradient-priority); }
+  .bg-gradient-hero { background-image: var(--gradient-hero); }
+
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-fab { box-shadow: var(--shadow-fab); }
+
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 }
