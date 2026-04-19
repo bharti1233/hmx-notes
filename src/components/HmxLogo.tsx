@@ -1,17 +1,16 @@
-import { Sparkles } from 'lucide-react';
-
-interface AuraLogoProps {
+interface HmxLogoProps {
   size?: number;
   className?: string;
 }
 
-export function AuraLogo({ size = 28, className = '' }: AuraLogoProps) {
+export function HmxLogo({ size = 36, className = '' }: HmxLogoProps) {
   return (
     <div
-      className={`relative flex items-center justify-center rounded-2xl bg-gradient-primary shadow-fab ${className}`}
-      style={{ width: size, height: size }}
+      className={`relative flex items-center justify-center rounded-2xl bg-gradient-primary shadow-fab text-primary-foreground font-display font-extrabold ${className}`}
+      style={{ width: size, height: size, fontSize: size * 0.32, letterSpacing: '-0.04em' }}
+      aria-label="HMX Notes"
     >
-      <Sparkles className="text-primary-foreground" style={{ width: size * 0.6, height: size * 0.6 }} strokeWidth={2.5} />
+      HMX
     </div>
   );
 }

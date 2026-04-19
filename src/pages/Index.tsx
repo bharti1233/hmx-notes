@@ -65,7 +65,7 @@ const Index = () => {
           <div className="flex items-center gap-3">
             <HmxLogo size={40} />
             <div>
-              <h1 className="font-display font-extrabold text-2xl text-foreground leading-tight">My Notes</h1>
+              <h1 className="font-display font-extrabold text-2xl text-foreground leading-tight">HMX Notes</h1>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {totalCount} {totalCount === 1 ? 'note' : 'notes'}
               </p>
