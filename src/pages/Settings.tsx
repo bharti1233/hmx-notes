@@ -2,7 +2,7 @@ import { Moon, Sun, FileText, Database, Sparkles, Github, Mail, Heart } from 'lu
 import { useNotes } from '@/hooks/useNotes';
 import { useTheme } from '@/hooks/useTheme';
 import { BottomNav } from '@/components/BottomNav';
-import { AuraLogo } from '@/components/AuraLogo';
+import { HmxLogo } from '@/components/HmxLogo';
 
 const Settings = () => {
   const { allNotes } = useNotes();
@@ -52,11 +52,11 @@ const Settings = () => {
         {/* About */}
         <Section title="About">
           <div className="rounded-2xl bg-card border border-border/40 p-6 flex flex-col items-center text-center shadow-soft">
-            <AuraLogo size={64} className="mb-4" />
-            <p className="font-display font-extrabold text-xl text-foreground">Aura Notes</p>
+            <HmxLogo size={64} className="mb-4" />
+            <p className="font-display font-extrabold text-xl text-foreground">HMX Notes</p>
             <p className="text-xs text-muted-foreground mt-1">Version 2.0.0 (Ad-Free)</p>
             <p className="text-sm text-muted-foreground mt-4 max-w-xs flex items-center gap-1.5 justify-center">
-              Made with <Heart className="h-3.5 w-3.5 text-destructive" fill="currentColor" /> for thinkers
+              Made by <span className="font-semibold text-primary">HMXPanel</span> with <Heart className="h-3.5 w-3.5 text-destructive" fill="currentColor" />
             </p>
           </div>
         </Section>

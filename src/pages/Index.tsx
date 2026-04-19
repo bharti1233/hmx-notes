@@ -8,7 +8,7 @@ import { NotesGrid } from '@/components/NotesGrid';
 import { NoteEditor } from '@/components/NoteEditor';
 import { Fab } from '@/components/Fab';
 import { BottomNav } from '@/components/BottomNav';
-import { AuraLogo } from '@/components/AuraLogo';
+import { HmxLogo } from '@/components/HmxLogo';
 
 const Index = () => {
   const {
@@ -63,9 +63,9 @@ const Index = () => {
       <header className="px-4 pt-6 pb-4 max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-3">
-            <AuraLogo size={36} />
+            <HmxLogo size={40} />
             <div>
-              <h1 className="font-display font-extrabold text-2xl text-foreground leading-tight">My Notes</h1>
+              <h1 className="font-display font-extrabold text-2xl text-foreground leading-tight">HMX Notes</h1>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {totalCount} {totalCount === 1 ? 'note' : 'notes'}
               </p>
