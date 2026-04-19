@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Check, Flag, Lock, Archive, Trash2, Pin } from 'lucide-react';
 import { ColorPicker } from './ColorPicker';
-import { getNoteColorClass, NOTE_TAGS, type NoteColor } from '@/lib/noteColors';
+import { getNoteColorClass, type NoteColor } from '@/lib/noteColors';
+import { useCustomTags } from '@/hooks/useCustomTags';
 import type { Note } from '@/hooks/useNotes';
 
 interface NoteEditorProps {
@@ -20,6 +21,8 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete }: NoteEditor
   const [priority, setPriority] = useState(false);
   const [pinned, setPinned] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
+  const { allTags } = useCustomTags();
+  const tagOptions = [{ id: 'none', label: 'None' }, ...allTags];
 
   useEffect(() => {
     if (open) {
@@ -156,7 +159,7 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete }: NoteEditor
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Tag</p>
             <div className="flex flex-wrap gap-2">
-              {NOTE_TAGS.map(t => (
+              {tagOptions.map(t => (
                 <button
                   key={t.id}
                   onClick={() => setTag(t.id)}
