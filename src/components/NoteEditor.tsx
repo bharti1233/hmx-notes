@@ -358,11 +358,6 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
             className={`w-full bg-transparent ${fontSizeClass} text-foreground placeholder:text-foreground/30 outline-none resize-none leading-relaxed min-h-[200px]`}
           />
 
-          {/* Color picker */}
-          <div className="pt-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/50 mb-2">Color</p>
-            <ColorPicker selected={color} onSelect={(c: NoteColor) => setColor(c)} />
-          </div>
 
           {/* Priority + Tag */}
           <div className="flex items-center gap-2 flex-wrap">
