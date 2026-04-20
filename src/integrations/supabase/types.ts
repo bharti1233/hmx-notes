@@ -17,9 +17,12 @@ export type Database = {
       notes: {
         Row: {
           archived: boolean
+          attachments: Json
+          checklist: Json
           color: string
           content: string
           created_at: string
+          deleted_at: string | null
           id: string
           pinned: boolean
           position: number
@@ -30,9 +33,12 @@ export type Database = {
         }
         Insert: {
           archived?: boolean
+          attachments?: Json
+          checklist?: Json
           color?: string
           content?: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
           pinned?: boolean
           position?: number
@@ -43,9 +49,12 @@ export type Database = {
         }
         Update: {
           archived?: boolean
+          attachments?: Json
+          checklist?: Json
           color?: string
           content?: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
           pinned?: boolean
           position?: number

@@ -6,9 +6,10 @@ interface NotesGridProps {
   label?: string;
   onEdit: (note: Note) => void;
   onTogglePin: (id: string, pinned: boolean) => void;
+  onLongPress?: (note: Note) => void;
 }
 
-export function NotesGrid({ notes, label, onEdit, onTogglePin }: NotesGridProps) {
+export function NotesGrid({ notes, label, onEdit, onTogglePin, onLongPress }: NotesGridProps) {
   if (notes.length === 0) return null;
 
   return (
@@ -20,7 +21,13 @@ export function NotesGrid({ notes, label, onEdit, onTogglePin }: NotesGridProps)
       )}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         {notes.map(note => (
-          <NoteCard key={note.id} note={note} onEdit={onEdit} onTogglePin={onTogglePin} />
+          <NoteCard
+            key={note.id}
+            note={note}
+            onEdit={onEdit}
+            onTogglePin={onTogglePin}
+            onLongPress={onLongPress}
+          />
         ))}
       </div>
     </div>
