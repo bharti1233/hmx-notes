@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft, Check, Flag, Archive, Trash2, Pin,
-  Type, CheckSquare, Mic, Pencil, ImagePlus, Smile, X, Plus, Loader2,
+  Type, CheckSquare, Mic, Pencil, ImagePlus, Smile, X, Plus, Loader2, Palette,
 } from 'lucide-react';
 import EmojiPicker, { EmojiStyle, Theme as EmojiTheme } from 'emoji-picker-react';
 import { ColorPicker } from './ColorPicker';
@@ -23,7 +23,7 @@ interface NoteEditorProps {
 }
 
 type FontSize = 'sm' | 'base' | 'lg';
-type ToolPanel = 'none' | 'font' | 'emoji' | 'draw';
+type ToolPanel = 'none' | 'font' | 'emoji' | 'draw' | 'color';
 
 // Speech recognition typings (browser API)
 type SR = any;
@@ -358,11 +358,6 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
             className={`w-full bg-transparent ${fontSizeClass} text-foreground placeholder:text-foreground/30 outline-none resize-none leading-relaxed min-h-[200px]`}
           />
 
-          {/* Color picker */}
-          <div className="pt-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/50 mb-2">Color</p>
-            <ColorPicker selected={color} onSelect={(c: NoteColor) => setColor(c)} />
-          </div>
 
           {/* Priority + Tag */}
           <div className="flex items-center gap-2 flex-wrap">
@@ -428,6 +423,12 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
         </div>
       )}
 
+      {panel === 'color' && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-20 bg-card border border-border rounded-2xl shadow-fab px-4 py-3 animate-in slide-in-from-bottom-2 duration-150">
+          <ColorPicker selected={color} onSelect={(c: NoteColor) => { setColor(c); setPanel('none'); }} />
+        </div>
+      )}
+
       {panel === 'emoji' && (
         <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-20 animate-in slide-in-from-bottom-2 duration-150">
           <EmojiPicker
@@ -474,6 +475,9 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
             </ToolBtn>
             <ToolBtn label="Emoji" active={panel === 'emoji'} onClick={() => setPanel(p => p === 'emoji' ? 'none' : 'emoji')}>
               <Smile className="h-5 w-5" />
+            </ToolBtn>
+            <ToolBtn label="Color" active={panel === 'color'} onClick={() => setPanel(p => p === 'color' ? 'none' : 'color')}>
+              <Palette className="h-5 w-5" />
             </ToolBtn>
           </div>
         </div>
