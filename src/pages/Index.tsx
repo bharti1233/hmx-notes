@@ -1,49 +1,51 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { StickyNote, Loader2, SlidersHorizontal } from 'lucide-react';
+import { StickyNote, Loader2 } from 'lucide-react';
 import { useNotes, type Note } from '@/hooks/useNotes';
 import { SearchBar } from '@/components/SearchBar';
 import { TagChips } from '@/components/TagChips';
 import { NotesGrid } from '@/components/NotesGrid';
 import { NoteEditor } from '@/components/NoteEditor';
+import { NoteActionSheet, type NoteAction } from '@/components/NoteActionSheet';
+import { SortMenu } from '@/components/SortMenu';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { Fab } from '@/components/Fab';
 import { BottomNav } from '@/components/BottomNav';
 import { HmxLogo } from '@/components/HmxLogo';
+import { toast } from 'sonner';
 
 const Index = () => {
+  const navigate = useNavigate();
   const {
-    pinnedNotes,
-    otherNotes,
-    allNotes,
-    loading,
-    searchQuery,
-    setSearchQuery,
-    activeTag,
-    setActiveTag,
-    createNote,
-    updateNote,
-    deleteNote,
-    togglePin,
-  } = useNotes();
+    pinnedNotes, otherNotes, allNotes, loading,
+    searchQuery, setSearchQuery,
+    activeTag, setActiveTag,
+    sortMode, setSortMode,
+    createNote, updateNote, trashNote, archiveNote, togglePin,
+  } = useNotes({ scope: 'active' });
 
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [actionNote, setActionNote] = useState<Note | null>(null);
 
-  const handleEdit = (note: Note) => {
-    setEditingNote(note);
-    setEditorOpen(true);
-  };
-
-  const handleNew = () => {
-    setEditingNote(null);
-    setEditorOpen(true);
-  };
+  const handleEdit = (note: Note) => { setEditingNote(note); setEditorOpen(true); };
+  const handleNew = () => { setEditingNote(null); setEditorOpen(true); };
 
   const handleSave = (data: Partial<Note> & { id?: string }) => {
-    if (data.id) {
-      updateNote(data.id, data);
-    } else {
-      createNote(data);
+    if (data.id) updateNote(data.id, data);
+    else createNote(data);
+  };
+
+  const handleAction = async (action: NoteAction, note: Note) => {
+    setActionNote(null);
+    if (action === 'pin') await togglePin(note.id, note.pinned);
+    else if (action === 'priority') await updateNote(note.id, { priority: !note.priority });
+    else if (action === 'archive') {
+      await archiveNote(note.id, true);
+      toast.success('Archived', { action: { label: 'Undo', onClick: () => archiveNote(note.id, false) } });
+    } else if (action === 'trash') {
+      await trashNote(note.id);
+      toast.success('Moved to Trash', { action: { label: 'View', onClick: () => navigate('/trash') } });
     }
   };
 
@@ -57,8 +59,7 @@ const Index = () => {
   const isEmpty = pinnedNotes.length === 0 && otherNotes.length === 0;
 
   return (
-    <div className="min-h-screen bg-gradient-hero pb-24">
-      {/* Header */}
+    <div className="min-h-screen bg-gradient-hero pb-28">
       <header className="px-4 pt-6 pb-4 max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-3">
@@ -70,26 +71,21 @@ const Index = () => {
               </p>
             </div>
           </div>
-          <button
-            className="p-2.5 rounded-full bg-card border border-border/60 text-muted-foreground hover:text-foreground transition-colors shadow-soft"
-            aria-label="Filter"
-          >
-            <SlidersHorizontal className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <SortMenu value={sortMode} onChange={setSortMode} />
+          </div>
         </div>
       </header>
 
-      {/* Search */}
       <div className="px-4 max-w-2xl mx-auto mb-4">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
       </div>
 
-      {/* Tag chips */}
       <div className="max-w-2xl mx-auto mb-5">
         <TagChips active={activeTag} onChange={setActiveTag} counts={counts} />
       </div>
 
-      {/* Main content */}
       <main className="px-4 max-w-2xl mx-auto space-y-6">
         {loading ? (
           <div className="flex justify-center py-20">
@@ -112,12 +108,14 @@ const Index = () => {
               label={pinnedNotes.length > 0 && otherNotes.length > 0 ? 'Pinned' : undefined}
               onEdit={handleEdit}
               onTogglePin={togglePin}
+              onLongPress={setActionNote}
             />
             <NotesGrid
               notes={otherNotes}
               label={pinnedNotes.length > 0 && otherNotes.length > 0 ? 'Others' : undefined}
               onEdit={handleEdit}
               onTogglePin={togglePin}
+              onLongPress={setActionNote}
             />
           </>
         )}
@@ -130,7 +128,15 @@ const Index = () => {
         open={editorOpen}
         onClose={() => { setEditorOpen(false); setEditingNote(null); }}
         onSave={handleSave}
-        onDelete={deleteNote}
+        onDelete={trashNote}
+        onArchive={(id) => archiveNote(id, true)}
+      />
+
+      <NoteActionSheet
+        note={actionNote}
+        scope="active"
+        onClose={() => setActionNote(null)}
+        onAction={handleAction}
       />
 
       <BottomNav />
