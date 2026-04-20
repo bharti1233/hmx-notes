@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft, Check, Flag, Archive, Trash2, Pin,
-  Type, CheckSquare, Mic, Pencil, ImagePlus, Smile, X, Plus, Loader2,
+  Type, CheckSquare, Mic, Pencil, ImagePlus, Smile, X, Plus, Loader2, Palette,
 } from 'lucide-react';
 import EmojiPicker, { EmojiStyle, Theme as EmojiTheme } from 'emoji-picker-react';
 import { ColorPicker } from './ColorPicker';
