@@ -23,7 +23,7 @@ interface NoteEditorProps {
 }
 
 type FontSize = 'sm' | 'base' | 'lg';
-type ToolPanel = 'none' | 'font' | 'emoji' | 'draw';
+type ToolPanel = 'none' | 'font' | 'emoji' | 'draw' | 'color';
 
 // Speech recognition typings (browser API)
 type SR = any;
@@ -428,6 +428,12 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
         </div>
       )}
 
+      {panel === 'color' && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-20 bg-card border border-border rounded-2xl shadow-fab px-4 py-3 animate-in slide-in-from-bottom-2 duration-150">
+          <ColorPicker selected={color} onSelect={(c: NoteColor) => { setColor(c); setPanel('none'); }} />
+        </div>
+      )}
+
       {panel === 'emoji' && (
         <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-20 animate-in slide-in-from-bottom-2 duration-150">
           <EmojiPicker
@@ -474,6 +480,9 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
             </ToolBtn>
             <ToolBtn label="Emoji" active={panel === 'emoji'} onClick={() => setPanel(p => p === 'emoji' ? 'none' : 'emoji')}>
               <Smile className="h-5 w-5" />
+            </ToolBtn>
+            <ToolBtn label="Color" active={panel === 'color'} onClick={() => setPanel(p => p === 'color' ? 'none' : 'color')}>
+              <Palette className="h-5 w-5" />
             </ToolBtn>
           </div>
         </div>
