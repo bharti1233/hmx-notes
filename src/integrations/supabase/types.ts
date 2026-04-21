@@ -30,6 +30,7 @@ export type Database = {
           tag: string
           title: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           archived?: boolean
@@ -46,6 +47,7 @@ export type Database = {
           tag?: string
           title?: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           archived?: boolean
@@ -62,6 +64,7 @@ export type Database = {
           tag?: string
           title?: string
           updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
