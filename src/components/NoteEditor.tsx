@@ -9,7 +9,7 @@ import { DrawCanvas } from './DrawCanvas';
 import { getNoteColorClass, type NoteColor } from '@/lib/noteColors';
 import { useCustomTags } from '@/hooks/useCustomTags';
 import { useTheme } from '@/hooks/useTheme';
-import { uploadNoteImage } from '@/lib/uploadImage';
+import { uploadNoteFile } from '@/lib/uploadImage';
 import { toast } from 'sonner';
 import type { Note, ChecklistItem } from '@/hooks/useNotes';
 
@@ -119,12 +119,11 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
     try {
       const urls: string[] = [];
       for (const file of Array.from(files)) {
-        if (!file.type.startsWith('image/')) continue;
-        if (file.size > 5 * 1024 * 1024) {
-          toast.error(`${file.name} is larger than 5MB`);
+        if (file.size > 20 * 1024 * 1024) {
+          toast.error(`${file.name} is larger than 20MB`);
           continue;
         }
-        const url = await uploadNoteImage(file);
+        const url = await uploadNoteFile(file, note?.id);
         urls.push(url);
       }
       if (urls.length) setAttachments(prev => [...prev, ...urls]);
@@ -185,7 +184,7 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
     try {
       const blob = await (await fetch(dataUrl)).blob();
       const file = new File([blob], `drawing-${Date.now()}.png`, { type: 'image/png' });
-      const url = await uploadNoteImage(file);
+      const url = await uploadNoteFile(file, note?.id);
       setAttachments(prev => [...prev, url]);
     } catch (e: any) {
       toast.error(e?.message || 'Failed to save drawing');
