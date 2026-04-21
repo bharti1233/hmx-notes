@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft, Check, Flag, Archive, Trash2, Pin,
-  Type, CheckSquare, Mic, Pencil, ImagePlus, Smile, X, Plus, Loader2, Palette,
+  Type, CheckSquare, Mic, Pencil, ImagePlus, Smile, X, Plus, Loader2, Palette, FileText,
 } from 'lucide-react';
 import EmojiPicker, { EmojiStyle, Theme as EmojiTheme } from 'emoji-picker-react';
 import { ColorPicker } from './ColorPicker';
@@ -282,18 +282,30 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
           {/* Attachments grid */}
           {(attachments.length > 0 || uploading) && (
             <div className="grid grid-cols-2 gap-2">
-              {attachments.map(url => (
-                <div key={url} className="relative group rounded-xl overflow-hidden bg-card/50 border border-border/40">
-                  <img src={url} alt="attachment" className="w-full h-40 object-cover" loading="lazy" />
-                  <button
-                    onClick={() => removeAttachment(url)}
-                    className="absolute top-1.5 right-1.5 p-1 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-background transition-colors"
-                    aria-label="Remove image"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              ))}
+              {attachments.map(url => {
+                const isImage = url.startsWith('data:image/') || /\.(jpg|jpeg|png|gif|webp|svg|bmp)(\?|$)/i.test(url);
+                return (
+                  <div key={url} className="relative group rounded-xl overflow-hidden bg-card/50 border border-border/40">
+                    {isImage ? (
+                      <img src={url} alt="attachment" className="w-full h-40 object-cover" loading="lazy" />
+                    ) : (
+                      <div className="w-full h-40 flex flex-col items-center justify-center gap-2 p-3">
+                        <FileText className="h-8 w-8 text-foreground/40" />
+                        <span className="text-xs text-foreground/60 text-center truncate max-w-full">
+                          {url.startsWith('data:') ? (url.split(';')[0].split('/')[1] || 'file').toUpperCase() : url.split('/').pop()?.split('?')[0] || 'File'}
+                        </span>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => removeAttachment(url)}
+                      className="absolute top-1.5 right-1.5 p-1 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-background transition-colors"
+                      aria-label="Remove file"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                );
+              })}
               {uploading && (
                 <div className="h-40 rounded-xl border border-dashed border-border flex items-center justify-center bg-card/40">
                   <Loader2 className="h-5 w-5 animate-spin text-primary" />
