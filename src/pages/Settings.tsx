@@ -90,7 +90,7 @@ const Settings = () => {
         {/* Sync status */}
         <Section title="Sync">
           <div className="rounded-2xl bg-card border border-border/40 p-4 shadow-soft flex items-center gap-3">
-            {online ? <Wifi className="h-5 w-5 text-green-500" /> : <WifiOff className="h-5 w-5 text-destructive" />}
+            {online ? <Wifi className="h-5 w-5 text-primary" /> : <WifiOff className="h-5 w-5 text-destructive" />}
             <div>
               <p className="font-semibold text-sm text-foreground">{online ? 'Connected' : 'Offline Mode'}</p>
               <p className="text-xs text-muted-foreground">{online ? 'Notes sync automatically in the background' : 'Notes saved locally, will sync when online'}</p>
