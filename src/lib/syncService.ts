@@ -1,6 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import { db, type LocalNote } from './db';
 import { getUnsyncedNotes, markSynced, bulkPut } from './notesService';
+import { syncPendingUploads } from './uploadImage';
 
 let syncing = false;
 
@@ -106,7 +107,10 @@ export async function initialPull(userId: string): Promise<void> {
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
 export function startBackgroundSync(userId: string): () => void {
-  const doSync = () => syncNotes(userId);
+  const doSync = () => {
+    syncPendingUploads().catch(console.warn);
+    syncNotes(userId);
+  };
 
   // Sync immediately
   doSync();
