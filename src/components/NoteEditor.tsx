@@ -485,7 +485,7 @@ export function NoteEditor({ note, open, onClose, onSave, onDelete, onArchive }:
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="*/*"
         multiple
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
