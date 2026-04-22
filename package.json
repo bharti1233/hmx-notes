@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "cap:android": "npm run build && npx cap add android || true && npx cap sync android"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.1",
