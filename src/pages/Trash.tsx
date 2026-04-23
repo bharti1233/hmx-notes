@@ -3,7 +3,6 @@ import { Trash2, Loader2 } from 'lucide-react';
 import { useNotes, type Note } from '@/hooks/useNotes';
 import { NotesGrid } from '@/components/NotesGrid';
 import { NoteActionSheet, type NoteAction } from '@/components/NoteActionSheet';
-import { BottomNav } from '@/components/BottomNav';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { toast } from 'sonner';
 
@@ -23,7 +22,7 @@ const Trash = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero pb-28">
+    <div className="min-h-screen bg-gradient-hero pb-8">
       <header className="px-4 pt-6 pb-4 max-w-2xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-destructive/10 flex items-center justify-center">
@@ -46,12 +45,12 @@ const Trash = () => {
               <Trash2 className="h-10 w-10 text-destructive" />
             </div>
             <p className="font-display font-bold text-lg text-foreground">Trash is empty</p>
-            <p className="text-sm text-muted-foreground mt-1 max-w-xs">Deleted notes will appear here. Long-press to restore or delete forever.</p>
+            <p className="text-sm text-muted-foreground mt-1 max-w-xs">Deleted notes will appear here.</p>
           </div>
         ) : (
           <NotesGrid
             notes={notes}
-            onEdit={() => { /* no editing in trash */ }}
+            onEdit={() => {}}
             onTogglePin={togglePin}
             onLongPress={setActionNote}
           />
@@ -64,8 +63,6 @@ const Trash = () => {
         onClose={() => setActionNote(null)}
         onAction={handleAction}
       />
-
-      <BottomNav />
     </div>
   );
 };

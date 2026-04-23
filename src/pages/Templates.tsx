@@ -3,7 +3,6 @@ import * as Icons from 'lucide-react';
 import { ChevronRight } from 'lucide-react';
 import { TEMPLATES } from '@/lib/templates';
 import { useNotes } from '@/hooks/useNotes';
-import { BottomNav } from '@/components/BottomNav';
 import { HmxLogo } from '@/components/HmxLogo';
 import { toast } from 'sonner';
 
@@ -25,7 +24,7 @@ const Templates = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero pb-24">
+    <div className="min-h-screen bg-gradient-hero pb-8">
       <header className="px-4 pt-6 pb-2 max-w-2xl mx-auto flex items-center gap-3">
         <HmxLogo size={36} />
         <div>
@@ -49,7 +48,7 @@ const Templates = () => {
               <button
                 key={tpl.id}
                 onClick={() => handleUse(tpl.id)}
-                className="w-full flex items-center gap-4 p-4 rounded-2xl bg-card border border-border/40 shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all text-left"
+                className="w-full flex items-center gap-4 p-4 rounded-2xl bg-card border border-border/40 shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 text-left active:scale-[0.98]"
               >
                 <div className={`w-12 h-12 rounded-2xl ${tpl.iconBg} flex items-center justify-center shrink-0`}>
                   <Icon className={`h-6 w-6 ${tpl.iconColor}`} strokeWidth={2.2} />
@@ -64,8 +63,6 @@ const Templates = () => {
           })}
         </div>
       </div>
-
-      <BottomNav />
     </div>
   );
 };

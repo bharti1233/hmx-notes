@@ -10,6 +10,8 @@ import Templates from "./pages/Templates";
 import Archive from "./pages/Archive";
 import Trash from "./pages/Trash";
 import Settings from "./pages/Settings";
+import Chat from "./pages/Chat";
+import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import { AppLayout } from "./components/AppLayout";
@@ -50,6 +52,8 @@ const AppRoutes = () => (
     <Route path="/archive" element={<ProtectedRoute><AppLayout><Archive /></AppLayout></ProtectedRoute>} />
     <Route path="/trash" element={<ProtectedRoute><AppLayout><Trash /></AppLayout></ProtectedRoute>} />
     <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
+    <Route path="/chat" element={<ProtectedRoute><AppLayout><Chat /></AppLayout></ProtectedRoute>} />
+    <Route path="/profile" element={<ProtectedRoute><AppLayout><Profile /></AppLayout></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
