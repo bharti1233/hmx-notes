@@ -4,7 +4,6 @@ import { useNotes, type Note } from '@/hooks/useNotes';
 import { NotesGrid } from '@/components/NotesGrid';
 import { NoteEditor } from '@/components/NoteEditor';
 import { NoteActionSheet, type NoteAction } from '@/components/NoteActionSheet';
-import { BottomNav } from '@/components/BottomNav';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { toast } from 'sonner';
 
@@ -26,7 +25,7 @@ const Archive = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero pb-28">
+    <div className="min-h-screen bg-gradient-hero pb-8">
       <header className="px-4 pt-6 pb-4 max-w-2xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-primary-soft flex items-center justify-center">
@@ -76,8 +75,6 @@ const Archive = () => {
         onClose={() => setActionNote(null)}
         onAction={handleAction}
       />
-
-      <BottomNav />
     </div>
   );
 };

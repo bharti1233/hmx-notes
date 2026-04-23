@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { StickyNote, Loader2 } from 'lucide-react';
+import { Sparkles, Loader2 } from 'lucide-react';
 import { useNotes, type Note } from '@/hooks/useNotes';
 import { SearchBar } from '@/components/SearchBar';
 import { TagChips } from '@/components/TagChips';
@@ -9,7 +9,6 @@ import { NoteEditor } from '@/components/NoteEditor';
 import { NoteActionSheet, type NoteAction } from '@/components/NoteActionSheet';
 import { SortMenu } from '@/components/SortMenu';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { Fab } from '@/components/Fab';
 import { BottomNav } from '@/components/BottomNav';
 import { HmxLogo } from '@/components/HmxLogo';
 import { toast } from 'sonner';
@@ -94,11 +93,11 @@ const Index = () => {
         ) : isEmpty ? (
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <div className="w-20 h-20 rounded-3xl bg-primary-soft flex items-center justify-center mb-4">
-              <StickyNote className="h-10 w-10 text-primary" />
+              <Sparkles className="h-10 w-10 text-primary" />
             </div>
-            <p className="font-display font-bold text-lg text-foreground">No notes yet</p>
+            <p className="font-display font-bold text-lg text-foreground">Start capturing your ideas ✨</p>
             <p className="text-sm text-muted-foreground mt-1 max-w-xs">
-              Tap the <span className="font-semibold text-primary">New Note</span> button to capture your first idea.
+              Tap the <span className="font-semibold text-primary">+</span> button below to create your first note.
             </p>
           </div>
         ) : (
@@ -121,8 +120,6 @@ const Index = () => {
         )}
       </main>
 
-      <Fab onClick={handleNew} />
-
       <NoteEditor
         note={editingNote}
         open={editorOpen}
@@ -139,7 +136,7 @@ const Index = () => {
         onAction={handleAction}
       />
 
-      <BottomNav />
+      <BottomNav onNewNote={handleNew} />
     </div>
   );
 };
