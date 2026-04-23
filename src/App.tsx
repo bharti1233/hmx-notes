@@ -12,6 +12,7 @@ import Trash from "./pages/Trash";
 import Settings from "./pages/Settings";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import { AppLayout } from "./components/AppLayout";
 
 const queryClient = new QueryClient();
 
@@ -44,11 +45,11 @@ function AuthRoute() {
 const AppRoutes = () => (
   <Routes>
     <Route path="/auth" element={<AuthRoute />} />
-    <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-    <Route path="/templates" element={<ProtectedRoute><Templates /></ProtectedRoute>} />
-    <Route path="/archive" element={<ProtectedRoute><Archive /></ProtectedRoute>} />
-    <Route path="/trash" element={<ProtectedRoute><Trash /></ProtectedRoute>} />
-    <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+    <Route path="/" element={<ProtectedRoute><AppLayout><Index /></AppLayout></ProtectedRoute>} />
+    <Route path="/templates" element={<ProtectedRoute><AppLayout><Templates /></AppLayout></ProtectedRoute>} />
+    <Route path="/archive" element={<ProtectedRoute><AppLayout><Archive /></AppLayout></ProtectedRoute>} />
+    <Route path="/trash" element={<ProtectedRoute><AppLayout><Trash /></AppLayout></ProtectedRoute>} />
+    <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
