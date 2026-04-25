@@ -6,19 +6,25 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// messages may include multimodal content arrays:
+//   { role: 'user', content: [{ type: 'text', text: '...' }, { type: 'image_url', image_url: { url: 'data:image/...' } }] }
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { messages, systemPrompt } = await req.json();
+    const { messages, systemPrompt, model } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const system = systemPrompt || 
+    const system = systemPrompt ||
       "You are a helpful AI study assistant inside a note-taking app called HMX Notes. " +
       "Help users with studying, answering questions, generating practice questions from their notes, " +
       "summarizing content, explaining concepts, and creating study materials. " +
+      "When users share images, video frames, or document text, analyze them carefully and explain in simple, clear language. " +
       "Be concise, friendly, and educational. Use markdown formatting for clarity.";
+
+    // Default to a vision-capable model so multimodal content works
+    const selectedModel = model || "google/gemini-2.5-flash";
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -27,7 +33,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: selectedModel,
         messages: [
           { role: "system", content: system },
           ...messages,
